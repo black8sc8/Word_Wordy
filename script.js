@@ -689,10 +689,14 @@ const allQuestions = [
     { kor: "우박이 떨어져 🧊", eng: "Hail falls" },
     { kor: "태풍이 와 🌪️", eng: "A typhoon is coming" }
 ];
+
+
+
+
 let remainingQuestions = [...allQuestions];
 let currentQuestion = {};
 let score = 0;
-let currentLevel = 'easy'; // 기본 난이도: 초급
+let currentLevel = 'easy';
 let targetAnswer = [];
 
 const questionBox = document.getElementById('questionBox');
@@ -733,7 +737,7 @@ function speakText(text) {
     synth.speak(utterance);
 }
 
-// 난이도 변경 함수 (초급, 중급, 상급)
+// 난이도 변경 함수
 function setLevel(level) {
     currentLevel = level;
     document.getElementById('btnEasy').classList.toggle('active', level === 'easy');
@@ -758,7 +762,7 @@ function nextQuestion() {
     let words = currentQuestion.eng.split(' ');
 
     if (currentLevel === 'easy') {
-        // 🐣 초급 모드: 빈칸 1개 + 보기 3개 (정답 1개 + 함정 2개)
+        // 🐣 초급 모드: 빈칸 1개 (목표 단어 1개)
         let blankIdx = Math.floor(Math.random() * words.length);
         targetAnswer = [words[blankIdx]];
 
@@ -766,7 +770,6 @@ function nextQuestion() {
         displayWords[blankIdx] = "___";
         questionBox.innerHTML = `${currentQuestion.kor}<br><span class="easy-sentence">${displayWords.join(' ')}</span>`;
 
-        // 보기 구성 (정답 1개 + 랜덤 함정 단어 2개)
         let poolWords = [...targetAnswer];
         const fakeWords = ["cat", "dog", "red", "blue", "big", "small", "run", "happy", "sun", "sky", "is", "a", "in", "on", "go"];
         
@@ -781,7 +784,7 @@ function nextQuestion() {
         poolWords.forEach(word => createWordButton(word));
 
     } else if (currentLevel === 'medium' && words.length >= 2) {
-        // 🐥 중급 모드: 빈칸 2개 + 보기 3개 (정답 2개 + 함정 1개)
+        // 🐥 중급 모드: 빈칸 2개 (목표 단어 2개)
         let blankIndices = [];
         while (blankIndices.length < 2) {
             let r = Math.floor(Math.random() * words.length);
@@ -808,7 +811,7 @@ function nextQuestion() {
         poolWords.forEach(word => createWordButton(word));
 
     } else {
-        // 🦅 상급 모드: 문장 전체 완성하기
+        // 🦅 상급 모드: 전체 단어 개수
         targetAnswer = words;
         questionBox.innerText = currentQuestion.kor;
 
@@ -825,6 +828,7 @@ function createWordButton(word) {
     wordPool.appendChild(btn);
 }
 
+// 단어 이동 및 자동 정답 검사
 function moveWord(btn) {
     speakText(btn.innerText);
 
@@ -834,6 +838,13 @@ function moveWord(btn) {
     } else {
         btn.className = 'word-btn';
         wordPool.appendChild(btn);
+    }
+
+    // 🌟 정답 칸에 올려진 단어 개수가 필요한 단어 수와 같아지면 자동으로 정답 확인!
+    if (answerArea.children.length === targetAnswer.length) {
+        setTimeout(() => {
+            checkAnswer();
+        }, 300); // 클릭 후 짧은 여운을 주기 위해 0.3초 대기 후 검사
     }
 }
 
