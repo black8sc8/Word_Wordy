@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jelly Sentence 🌈</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="game-container">
+    <h1>🌈 Jelly Sentence 🌈</h1>
+    
+    <!-- 난이도 선택 버튼 -->
+    <div class="level-select">
+        <button id="btnEasy" class="level-btn active" onclick="setLevel('easy')">🐣 초급 (빈칸 채우기)</button>
+        <button id="btnHard" class="level-btn" onclick="setLevel('hard')">🐥 중급 (문장 완성하기)</button>
+    </div>
+
+    <div class="score-board">⭐ 맞춘 개수: <span id="score">0</span>개</div>
+
+    <div id="questionBox" class="question-box">
+        여기에 문제가 나와요!
+    </div>
+
+    <div class="area-title">👇 여기에 단어를 순서대로 놓아주세요 👇</div>
+    <div id="answerArea" class="drop-area"></div>
+
+    <div class="area-title">👇 단어 블록을 클릭하세요 👇</div>
+    <div id="wordPool" class="word-pool"></div>
+
+    <div id="feedbackMessage" class="feedback-message"></div>
+
+    <button class="action-btn" onclick="checkAnswer()">정답 확인하기 🔍</button>
+</div>
+
+<script src="script.js" defer></script>
+
+</body>
+</html>
