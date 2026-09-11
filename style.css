@@ -1,0 +1,301 @@
+@import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+/* ==========================================
+   1. 기본 배경 및 웹/모바일 최적화 설정
+   ========================================== */
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+body {
+    font-family: 'Jua', sans-serif;
+    background-color: #FFF5F7;
+    background-image: radial-gradient(#FFD1DC 15%, transparent 15%);
+    background-size: 20px 20px;
+    text-align: center;
+    margin: 0;
+    padding: 10px;
+    color: #4A4A4A;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* ==========================================
+   2. 게임 메인 컨테이너
+   ========================================== */
+.game-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: #FFFFFF;
+    border-radius: 25px;
+    padding: 20px 15px;
+    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
+    border: 5px solid #FFD1DC;
+}
+
+h1 {
+    color: #FF6B8B;
+    font-size: 1.6rem;
+    margin: 0 0 4px 0;
+    text-shadow: 1px 1px 0px #FFE4E1;
+}
+
+.sub-title {
+    color: #FF8A65;
+    font-size: 1.1rem;
+    margin: 0 0 12px 0;
+    font-weight: normal;
+}
+
+/* ==========================================
+   3. 점수판 & 난이도 선택 버튼
+   ========================================== */
+.score-container {
+    margin-bottom: 12px;
+}
+
+.score-board {
+    display: inline-block;
+    font-size: 1.1rem;
+    color: #FFA502;
+    background-color: #FFF8E7;
+    padding: 6px 16px;
+    border-radius: 18px;
+    border: 2px dashed #FFE082;
+}
+
+.level-select {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.level-btn {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+    background-color: #E0E0E0;
+    color: #555555;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #BDBDBD;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+}
+
+.level-btn.active {
+    background-color: #FF6B8B;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 0 #E91E63;
+}
+
+/* ==========================================
+   4. 문제 상자 및 듣기(Listen) 버튼 (폰트 확대 적용)
+   ========================================== */
+.question-box {
+    position: relative;
+    background-color: #E8F5E9;
+    padding: 22px 15px 18px 15px;
+    border-radius: 20px;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 12px;
+    border: 3px solid #C8E6C9;
+    color: #2E7D32;
+    word-break: keep-all;
+    min-height: 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.easy-sentence {
+    display: block;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #2D2D2D;
+    margin-top: 8px;
+    letter-spacing: 1px;
+}
+
+.area-title {
+    font-size: 0.9rem;
+    color: #FF8A65;
+    margin: 6px 0 4px 0;
+}
+
+/* 우측 상단 모서리에 고정된 Listen 버튼 */
+.tts-btn {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background-color: #FFF0F5;
+    border: 2px solid #FFB6C1;
+    border-radius: 14px;
+    padding: 4px 10px;
+    font-size: 0.85rem;
+    font-family: 'Jua', sans-serif;
+    color: #FF69B4 !important;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 3px 0 #FF69B4;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 10;
+}
+
+.tts-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 0 #FF69B4 !important;
+}
+
+/* ==========================================
+   5. 단어 영역 (정답 패널 & 보관함)
+   ========================================== */
+.drop-area, .word-pool {
+    min-height: 65px;
+    padding: 10px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.drop-area {
+    background-color: #E8F5E9;
+    border: 3px dashed #81C784;
+}
+
+.word-pool {
+    background-color: #F8BBD0;
+    border: 3px solid #F48FB1;
+}
+
+/* ==========================================
+   6. 단어 버튼 스타일 (고대비 가독성 극대화)
+   ========================================== */
+button {
+    font-family: 'Jua', sans-serif;
+    font-size: 1.25rem;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    color: #2D2D2D !important;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+.word-btn {
+    background-color: #FFE082;
+    box-shadow: 0 4px 0 #FFB300;
+}
+
+.word-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #FFB300 !important;
+}
+
+.answer-btn {
+    background-color: #B3E5FC;
+    box-shadow: 0 4px 0 #29B6F6;
+}
+
+.answer-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 #29B6F6 !important;
+}
+
+/* ==========================================
+   7. 피드백 메시지 & 애니메이션
+   ========================================== */
+.feedback-message {
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-height: 25px;
+    margin: 4px 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.feedback-message.show {
+    opacity: 1;
+}
+
+.feedback-message.correct {
+    color: #4CAF50;
+}
+
+.feedback-message.wrong {
+    color: #FF5252;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+}
+
+.shake {
+    animation: shake 0.4s ease-in-out;
+}
+
+/* ==========================================
+   8. 태블릿 & 큰 화면 반응형 스타일 (768px 이상)
+   ========================================== */
+@media (min-width: 768px) {
+    .game-container {
+        padding: 30px 20px;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+
+    .sub-title {
+        font-size: 1.3rem;
+    }
+
+    .level-btn {
+        font-size: 1.05rem;
+        padding: 8px 14px;
+    }
+
+    .question-box {
+        font-size: 2.5rem;
+        padding: 28px 20px;
+    }
+
+    .easy-sentence {
+        font-size: 2.8rem;
+    }
+
+    .tts-btn {
+        top: 12px;
+        right: 14px;
+        font-size: 1rem;
+        padding: 6px 14px;
+    }
+
+    button {
+        font-size: 1.4rem;
+        padding: 12px 20px;
+    }
+
+    .drop-area, .word-pool {
+        min-height: 80px;
+        gap: 12px;
+    }
+}
