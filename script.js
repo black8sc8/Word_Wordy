@@ -12,53 +12,79 @@ const areaTitle = document.getElementById('areaTitle');
 const scoreDisplay = document.getElementById('score');
 const feedbackMessage = document.getElementById('feedbackMessage');
 
-// 모바일 호환 TTS 및 사파리 모바일 보완
+// ==========================================
+// 📱 모바일 강력 최적화 음성(TTS) 엔진
+// ==========================================
 let synth = window.speechSynthesis;
 let voices = [];
+let isAudioUnlocked = false;
 
 function loadVoices() {
-    if (synth) voices = synth.getVoices();
+    if (synth) {
+        voices = synth.getVoices();
+    }
 }
+
 loadVoices();
 if (synth && synth.onvoiceschanged !== undefined) {
     synth.onvoiceschanged = loadVoices;
 }
 
-function speakText(text) {
-    if (!('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.85;
-    utterance.pitch = 1.1;
-
-    let availableVoices = window.speechSynthesis.getVoices();
-    if (availableVoices.length > 0) {
-        let usVoice = availableVoices.find(v => v.lang === 'en-US' || v.lang === 'en_US');
-        if (usVoice) utterance.voice = usVoice;
+// 모바일 첫 터치 시 사운드 채널 강제 잠금 해제 (iOS/Android 공통)
+function unlockAudio() {
+    if (!isAudioUnlocked) {
+        if (synth) {
+            synth.resume();
+            let silentUtterance = new SpeechSynthesisUtterance("");
+            synth.speak(silentUtterance);
+        }
+        isAudioUnlocked = true;
     }
-
-    setTimeout(() => {
-        window.speechSynthesis.speak(utterance);
-    }, 50);
 }
 
-// 화면 첫 터치시 음성 잠금 해제
-document.addEventListener('click', function unlockAudio() {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.resume();
-    }
-}, { once: true });
+document.addEventListener('click', unlockAudio, { once: true });
+document.addEventListener('touchstart', unlockAudio, { once: true });
 
-// 스피커 버튼 클릭 시 전체 영어 문장 재생
+function speakText(text) {
+    if (!text) return;
+
+    // 모바일 TTS 1순위: Web Speech API
+    if ('speechSynthesis' in window) {
+        synth.cancel();
+
+        setTimeout(() => {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.1;
+
+            if (voices.length === 0) {
+                voices = synth.getVoices();
+            }
+
+            if (voices.length > 0) {
+                let usVoice = voices.find(v => v.lang === 'en-US' || v.lang === 'en_US' || v.lang.includes('en'));
+                if (usVoice) utterance.voice = usVoice;
+            }
+
+            synth.speak(utterance);
+        }, 50);
+    } else {
+        // 모바일 TTS 2순위 (비상용): 외부 구글 TTS 오디오 객체 재생
+        let altAudio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(text)}`);
+        altAudio.play().catch(e => console.log(e));
+    }
+}
+
 function speakCurrentQuestion() {
     if (currentQuestion && currentQuestion.eng) {
         speakText(currentQuestion.eng);
     }
 }
 
+// ==========================================
+// 🎮 난이도 선택 & 문제 출제 로직
+// ==========================================
 function setLevel(level) {
     currentLevel = level;
     document.getElementById('btnWord').classList.toggle('active', level === 'word');
@@ -72,7 +98,6 @@ function nextQuestion() {
     answerArea.innerHTML = '';
     wordPool.innerHTML = '';
 
-    // 모서리 전용 Listen 버튼 HTML 태그
     const listenButtonHTML = `<button class="tts-btn" onclick="speakCurrentQuestion()">Listen 🔊</button>`;
 
     if (currentLevel === 'word') {
