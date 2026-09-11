@@ -13,7 +13,7 @@ const scoreDisplay = document.getElementById('score');
 const feedbackMessage = document.getElementById('feedbackMessage');
 
 // ==========================================
-// 📱 모바일 강력 최적화 음성(TTS) 엔진
+// 📱 모바일 & PC 겸용 음성(TTS) 엔진
 // ==========================================
 let synth = window.speechSynthesis;
 let voices = [];
@@ -30,7 +30,7 @@ if (synth && synth.onvoiceschanged !== undefined) {
     synth.onvoiceschanged = loadVoices;
 }
 
-// 모바일 첫 터치 시 사운드 채널 강제 잠금 해제 (iOS/Android 공통)
+// 모바일 및 브라우저 오디오 채널 강제 잠금 해제
 function unlockAudio() {
     if (!isAudioUnlocked) {
         if (synth) {
@@ -48,7 +48,6 @@ document.addEventListener('touchstart', unlockAudio, { once: true });
 function speakText(text) {
     if (!text) return;
 
-    // 모바일 TTS 1순위: Web Speech API
     if ('speechSynthesis' in window) {
         synth.cancel();
 
@@ -70,12 +69,12 @@ function speakText(text) {
             synth.speak(utterance);
         }, 50);
     } else {
-        // 모바일 TTS 2순위 (비상용): 외부 구글 TTS 오디오 객체 재생
         let altAudio = new Audio(`https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${encodeURIComponent(text)}`);
         altAudio.play().catch(e => console.log(e));
     }
 }
 
+// 상단 모서리 Listen 버튼 클릭 시에만 전체 문장 재생
 function speakCurrentQuestion() {
     if (currentQuestion && currentQuestion.eng) {
         speakText(currentQuestion.eng);
@@ -137,7 +136,6 @@ function nextQuestion() {
 
         } else {
             questionBox.innerHTML = `${listenButtonHTML}<div>${currentQuestion.eng}</div>`;
-            speakText(currentQuestion.eng);
             targetAnswer = [currentQuestion.kor];
 
             let options = [currentQuestion.kor];
@@ -276,7 +274,7 @@ function checkAnswer() {
     
     if (userAnswer === expectedAnswer) {
         showMessage("참 잘했어요! 💯 정답입니다!", true);
-        speakText(currentQuestion.eng);
+        // ✨ 정답 맞춤 시 자동 재생되는 speakText(currentQuestion.eng) 제거완료
 
         score += 10;
         scoreDisplay.innerText = score;
