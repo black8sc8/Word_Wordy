@@ -3,40 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 다인이 영어공부하자 🌈</title>
+    <title>다인이의 영어 공부 🌈</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="game-container">
-    <h1>🌈 다인이 영어공부하자 🌈</h1>
+    <h1>🌈 다인아, 영어 공부하자. 🌈</h1>
+    <h2 class="sub-title">Hey, 다인, let’s study English.</h2>
     
-    <div class="top-panel">
-        <div class="level-select">
-            <button id="btnEasy" class="level-btn active" onclick="setLevel('easy')">🐣 초급</button>
-            <button id="btnMedium" class="level-btn" onclick="setLevel('medium')">🐥 중급</button>
-            <button id="btnHard" class="level-btn" onclick="setLevel('hard')">🦅 상급</button>
-        </div>
-        <div class="score-board">⭐ 점수: <span id="score">0</span></div>
+    <div class="score-container">
+        <div class="score-board">⭐ 점수: <span id="score">0</span>점</div>
+    </div>
+
+    <!-- 난이도 및 모드 선택 버튼 -->
+    <div class="level-select">
+        <button id="btnWord" class="level-btn active" onclick="setLevel('word')">🔤 단어연습</button>
+        <button id="btnEasy" class="level-btn" onclick="setLevel('easy')">🐣 초급</button>
+        <button id="btnMedium" class="level-btn" onclick="setLevel('medium')">🐥 중급</button>
+        <button id="btnHard" class="level-btn" onclick="setLevel('hard')">🦅 상급</button>
     </div>
 
     <div id="questionBox" class="question-box">
         여기에 문제가 나와요!
     </div>
 
-    <div class="area-title">👇 여기에 단어를 순서대로 놓아주세요 👇</div>
-    <div id="answerArea" class="drop-area"></div>
+    <div id="areaTitle" class="area-title">👇 정답 단어를 선택해 주세요 👇</div>
+    <div id="answerArea" class="drop-area" style="display: none;"></div>
 
-    <div class="area-title">👇 단어 블록을 클릭하세요 👇</div>
     <div id="wordPool" class="word-pool"></div>
 
     <div id="feedbackMessage" class="feedback-message"></div>
 </div>
 
-<!-- 1. 문제 데이터 파일 먼저 로드 -->
 <script src="questions.js"></script>
-
-<!-- 2. 게임 로직 파일 로드 -->
+<script src="wordQuestions.js"></script>
 <script src="script.js" defer></script>
 
 </body>
