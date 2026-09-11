@@ -12,26 +12,26 @@
     <h1>🌈 다인아, 영어 공부하자. 🌈</h1>
     <h2 class="sub-title">Hey, 다인, let’s study English.</h2>
     
-    <div class="score-container">
-        <div class="score-board">⭐ 점수: <span id="score">0</span>점</div>
+    <!-- ⚡ 상단 제어 영역 (가로 모드 시 한 줄 배치 적용) -->
+    <div class="top-controls">
+        <div class="score-container">
+            <div class="score-board">⭐ 점수: <span id="score">0</span>점</div>
+        </div>
+
+        <div class="level-select">
+            <button id="btnWord" class="level-btn active" onclick="setLevel('word')">🔤 단어연습</button>
+            <button id="btnEasy" class="level-btn" onclick="setLevel('easy')">🐣 초급</button>
+            <button id="btnMedium" class="level-btn" onclick="setLevel('medium')">🐥 중급</button>
+            <button id="btnHard" class="level-btn" onclick="setLevel('hard')">🦅 상급</button>
+        </div>
     </div>
 
-    <!-- 난이도 선택 버튼 -->
-    <div class="level-select">
-        <button id="btnWord" class="level-btn active" onclick="setLevel('word')">🔤 단어연습</button>
-        <button id="btnEasy" class="level-btn" onclick="setLevel('easy')">🐣 초급</button>
-        <button id="btnMedium" class="level-btn" onclick="setLevel('medium')">🐥 중급</button>
-        <button id="btnHard" class="level-btn" onclick="setLevel('hard')">🦅 상급</button>
-    </div>
-
-    <!-- ⚡ 좌우 2열 배치를 완성하는 감싸기 태그 (핵심!) -->
+    <!-- 좌우 2열 메인 콘텐츠 -->
     <div class="game-main-content">
-        <!-- 왼쪽: 문제 상자 -->
         <div id="questionBox" class="question-box">
             여기에 문제가 나와요!
         </div>
 
-        <!-- 오른쪽: 정답 영역 및 보기 버튼 -->
         <div class="interactive-area">
             <div id="areaTitle" class="area-title">👇 정답을 선택해 주세요 👇</div>
             <div id="answerArea" class="drop-area" style="display: none;"></div>
