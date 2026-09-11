@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 /* ==========================================
-   1. 기본 최적화
+   1. 기본 최적화 및 기본 레이아웃
    ========================================== */
 * {
     box-sizing: border-box;
@@ -26,9 +26,6 @@ body {
     padding: 10px;
 }
 
-/* ==========================================
-   2. 메인 게임 컨테이너 (세로 모드 좌우 배치 Layout)
-   ========================================== */
 .game-container {
     width: 95vw;
     max-width: 800px;
@@ -94,16 +91,14 @@ h1 {
 }
 
 /* ==========================================
-   3. ⚡ 핵심: 세로 화면에서 [문제]와 [정답/보기] 좌우(2열) 배치
+   2. 기본 (기존) 상하 레이아웃 (가로 화면 / PC)
    ========================================== */
 .game-main-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* 좌: 문제, 우: 정답/보기 영역 */
-    gap: 12px;
-    align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-/* 왼쪽 문제 상자 */
 .question-box {
     position: relative;
     background-color: #E8F5E9;
@@ -118,8 +113,7 @@ h1 {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100%;
-    min-height: 160px;
+    min-height: 100px;
 }
 
 .easy-sentence {
@@ -130,11 +124,9 @@ h1 {
     margin-top: 6px;
 }
 
-/* 오른쪽 정답 & 보기 영역 묶음 */
 .interactive-area {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     gap: 8px;
 }
 
@@ -143,7 +135,6 @@ h1 {
     color: #FF8A65;
 }
 
-/* 우측 상단 Listen 버튼 */
 .tts-btn {
     position: absolute;
     top: 8px;
@@ -169,9 +160,6 @@ h1 {
     box-shadow: none !important;
 }
 
-/* ==========================================
-   4. 정답 패널 & 보관함
-   ========================================== */
 .drop-area, .word-pool {
     min-height: 60px;
     padding: 8px;
@@ -191,12 +179,8 @@ h1 {
 .word-pool {
     background-color: #F8BBD0;
     border: 3px solid #F48FB1;
-    flex-grow: 1;
 }
 
-/* ==========================================
-   5. 단어 버튼 스타일
-   ========================================== */
 button {
     font-family: 'Jua', sans-serif;
     font-size: clamp(1rem, 3.2vw, 1.25rem);
@@ -229,9 +213,6 @@ button {
     box-shadow: none !important;
 }
 
-/* ==========================================
-   6. 피드백 메시지
-   ========================================== */
 .feedback-message {
     font-size: 0.95rem;
     font-weight: bold;
@@ -253,10 +234,27 @@ button {
 .shake { animation: shake 0.4s ease-in-out; }
 
 /* ==========================================
-   7. 📱 화면이 좁은 초소형 스마트폰 대응 (상하 배치로 자동 전환)
+   3. 📱 세로 화면(Portrait Mode) 전용 좌우 2열 배치
    ========================================== */
-@media (max-width: 480px) {
+@media (orientation: portrait) {
     .game-main-content {
-        grid-template-columns: 1fr; /* 좌우 배치가 너무 조밀해지면 1열로 유연하게 복귀 */
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 좌: 문제 / 우: 답안 영역 */
+        gap: 10px;
+        align-items: stretch;
+    }
+
+    .question-box {
+        height: 100%;
+        min-height: 180px;
+    }
+
+    .interactive-area {
+        height: 100%;
+        justify-content: space-between;
+    }
+
+    .word-pool {
+        flex-grow: 1;
     }
 }
