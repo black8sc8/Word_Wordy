@@ -2,48 +2,258 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>다인이의 영어 공부 🌈</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<div class="game-container">
-    <h1>🌈 다인아, 영어 공부하자. 🌈</h1>
-    <h2 class="sub-title">Hey, 다인, let’s study English.</h2>
-    
-    <!-- ⚡ 상단 제어 영역 (가로 모드 시 한 줄 배치 적용) -->
-    <div class="top-controls">
-        <div class="score-container">
-            <div class="score-board">⭐ 점수: <span id="score">0</span>점</div>
+<div class="app-container">
+
+    <!-- =========================================
+         홈 화면
+         ========================================= -->
+    <section id="homeScreen" class="screen active">
+
+        <h1>🌈 다인아, 영어 공부하자. 🌈</h1>
+
+        <h2 class="sub-title">
+            Hey, 다인, let’s study English.
+        </h2>
+
+        <!-- 누적 점수 -->
+        <div class="home-score">
+            ⭐ 누적 점수
+            <strong id="homeScore">0</strong>점
         </div>
 
-        <div class="level-select">
-            <button id="btnWord" class="level-btn active" onclick="setLevel('word')">🔤 단어연습</button>
-            <button id="btnEasy" class="level-btn" onclick="setLevel('easy')">🐣 초급</button>
-            <button id="btnMedium" class="level-btn" onclick="setLevel('medium')">🐥 중급</button>
-            <button id="btnHard" class="level-btn" onclick="setLevel('hard')">🦅 상급</button>
-        </div>
-    </div>
 
-    <!-- 좌우 2열 메인 콘텐츠 -->
-    <div class="game-main-content">
-        <div id="questionBox" class="question-box">
-            여기에 문제가 나와요!
+        <!-- =====================================
+             공부 메뉴
+             ===================================== -->
+        <div class="home-menu">
+
+            <!-- 단어공부 -->
+            <button
+                type="button"
+                class="home-level-btn word"
+                onclick="startStudy('word')"
+            >
+                🔤
+                <span>단어공부</span>
+            </button>
+
+
+            <!-- 초급 -->
+            <button
+                type="button"
+                class="home-level-btn easy"
+                onclick="startStudy('easy')"
+            >
+                🐣
+                <span>초급</span>
+            </button>
+
+
+            <!-- 중급 -->
+            <button
+                type="button"
+                class="home-level-btn medium"
+                onclick="startStudy('medium')"
+            >
+                🐥
+                <span>중급</span>
+            </button>
+
+
+            <!-- 상급 -->
+            <button
+                type="button"
+                class="home-level-btn hard"
+                onclick="startStudy('hard')"
+            >
+                🦅
+                <span>상급</span>
+            </button>
+
         </div>
 
-        <div class="interactive-area">
-            <div id="areaTitle" class="area-title">👇 정답을 선택해 주세요 👇</div>
-            <div id="answerArea" class="drop-area" style="display: none;"></div>
-            <div id="wordPool" class="word-pool"></div>
-        </div>
-    </div>
 
-    <div id="feedbackMessage" class="feedback-message"></div>
+        <!-- =====================================
+             오답노트 버튼
+
+             중요:
+             showWrongNotes() ❌
+             openWrongNotes() ✅
+
+             script.js에 실제로
+             openWrongNotes()가 존재함
+             ===================================== -->
+        <button
+            type="button"
+            class="wrong-note-home-btn"
+            onclick="openWrongNotes()"
+        >
+            📖 오답노트
+            <span id="wrongCount">0</span>
+        </button>
+
+    </section>
+
+
+
+    <!-- =========================================
+         공부 화면
+         ========================================= -->
+    <section id="studyScreen" class="screen">
+
+        <div class="study-header">
+
+            <!-- 홈으로 -->
+            <button
+                type="button"
+                class="home-btn"
+                onclick="goHome()"
+            >
+                🏠 홈으로
+            </button>
+
+
+            <!-- 현재 공부 단계 -->
+            <div
+                class="study-title"
+                id="studyTitle"
+            >
+                단어공부
+            </div>
+
+
+            <!-- 점수 -->
+            <div class="study-score">
+                ⭐
+                <span id="score">0</span>점
+            </div>
+
+        </div>
+
+
+        <!-- =====================================
+             문제 영역
+             ===================================== -->
+        <div class="game-main-content">
+
+            <div
+                id="questionBox"
+                class="question-box"
+            >
+                문제를 준비하고 있어요.
+            </div>
+
+
+            <div class="interactive-area">
+
+                <div
+                    id="areaTitle"
+                    class="area-title"
+                >
+                    👇 정답을 선택해 주세요 👇
+                </div>
+
+
+                <!-- 문장 정답 영역 -->
+                <div
+                    id="answerArea"
+                    class="drop-area"
+                    style="display:none;"
+                ></div>
+
+
+                <!-- 보기 영역 -->
+                <div
+                    id="wordPool"
+                    class="word-pool"
+                ></div>
+
+            </div>
+
+        </div>
+
+
+        <!-- 정답 / 오답 메시지 -->
+        <div
+            id="feedbackMessage"
+            class="feedback-message"
+        ></div>
+
+    </section>
+
+
+
+    <!-- =========================================
+         오답노트 화면
+         ========================================= -->
+    <section
+        id="wrongNoteScreen"
+        class="screen"
+    >
+
+        <div class="study-header">
+
+            <!-- 홈으로 -->
+            <button
+                type="button"
+                class="home-btn"
+                onclick="goHome()"
+            >
+                🏠 홈으로
+            </button>
+
+
+            <!-- 제목 -->
+            <div class="study-title">
+                📖 오답노트
+            </div>
+
+
+            <!-- 전체 삭제
+
+                 중요:
+                 clearAllWrongNotes() ❌
+                 clearWrongNotes() ✅
+                 -->
+            <button
+                type="button"
+                class="clear-btn"
+                onclick="clearWrongNotes()"
+            >
+                전체삭제
+            </button>
+
+        </div>
+
+
+        <!-- 오답 카드가 들어가는 영역 -->
+        <div
+            id="wrongNoteList"
+            class="wrong-note-list"
+        ></div>
+
+    </section>
+
 </div>
 
+
+<!-- =========================================
+     문제 데이터
+     ========================================= -->
 <script src="questions.js"></script>
 <script src="wordQuestions.js"></script>
+
+
+<!-- =========================================
+     메인 JavaScript
+     ========================================= -->
 <script src="script.js" defer></script>
 
 </body>
