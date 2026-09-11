@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 /* ==========================================
-   1. 기본 최적화 & 여백 초기화
+   1. 기본 최적화
    ========================================== */
 * {
     box-sizing: border-box;
@@ -21,57 +21,50 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
-    height: 100svh; /* 모바일 주소창 대응 */
-    overflow: hidden; /* 화면 스크롤 방지 */
+    min-height: 100vh;
+    min-height: 100svh;
+    padding: 10px;
 }
 
 /* ==========================================
-   2. 게임 메인 컨테이너 (화면 가로/세로 80% 적용)
+   2. 메인 게임 컨테이너 (세로 모드 좌우 배치 Layout)
    ========================================== */
 .game-container {
-    width: 80vw;
-    height: 80vh;
-    height: 80svh; /* 화면 전체의 세로 80% */
+    width: 95vw;
+    max-width: 800px;
     background-color: #FFFFFF;
     border-radius: 25px;
-    padding: 15px;
+    padding: 16px;
     box-shadow: 0 8px 20px rgba(255, 182, 193, 0.4);
     border: 4px solid #FFD1DC;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    overflow-y: auto; /* 내용이 길어질 경우 대비 */
+    gap: 10px;
 }
 
 h1 {
     color: #FF6B8B;
-    font-size: clamp(1.2rem, 3.5vw, 1.8rem);
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
     margin-bottom: 2px;
     text-shadow: 1px 1px 0px #FFE4E1;
 }
 
 .sub-title {
     color: #FF8A65;
-    font-size: clamp(0.85rem, 2.2vw, 1.1rem);
-    margin-bottom: 8px;
+    font-size: clamp(0.85rem, 2.2vw, 1rem);
     font-weight: normal;
 }
 
-/* ==========================================
-   3. 점수판 & 난이도 선택 버튼
-   ========================================== */
 .score-container {
-    margin-bottom: 6px;
+    margin-top: 2px;
 }
 
 .score-board {
     display: inline-block;
-    font-size: clamp(0.85rem, 2.2vw, 1rem);
+    font-size: 0.95rem;
     color: #FFA502;
     background-color: #FFF8E7;
-    padding: 4px 12px;
+    padding: 4px 14px;
     border-radius: 16px;
     border: 2px dashed #FFE082;
 }
@@ -80,20 +73,18 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-bottom: 8px;
     flex-wrap: wrap;
 }
 
 .level-btn {
-    font-size: clamp(0.75rem, 2vw, 0.9rem);
-    padding: 5px 8px;
+    font-size: 0.85rem;
+    padding: 5px 10px;
     background-color: #E0E0E0;
     color: #555555;
     border-radius: 12px;
     border: none;
     cursor: pointer;
     box-shadow: 0 3px 0 #BDBDBD;
-    transition: transform 0.1s ease;
 }
 
 .level-btn.active {
@@ -103,51 +94,65 @@ h1 {
 }
 
 /* ==========================================
-   4. 문제 상자 (텍스트 & 버튼 겹침 방지)
+   3. ⚡ 핵심: 세로 화면에서 [문제]와 [정답/보기] 좌우(2열) 배치
    ========================================== */
+.game-main-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 좌: 문제, 우: 정답/보기 영역 */
+    gap: 12px;
+    align-items: stretch;
+}
+
+/* 왼쪽 문제 상자 */
 .question-box {
     position: relative;
     background-color: #E8F5E9;
-    padding: 38px 10px 12px 10px;
+    padding: 40px 10px 15px 10px;
     border-radius: 18px;
-    font-size: clamp(1.3rem, 4vw, 2rem);
+    font-size: clamp(1.4rem, 4.5vw, 2.2rem);
     font-weight: bold;
-    margin-bottom: 6px;
     border: 3px solid #C8E6C9;
     color: #2E7D32;
     word-break: keep-all;
-    flex-grow: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 100%;
+    min-height: 160px;
 }
 
 .easy-sentence {
     display: block;
-    font-size: clamp(1.4rem, 4.5vw, 2.2rem);
+    font-size: clamp(1.5rem, 5vw, 2.4rem);
     font-weight: bold;
     color: #2D2D2D;
-    margin-top: 4px;
-    letter-spacing: 0.5px;
+    margin-top: 6px;
+}
+
+/* 오른쪽 정답 & 보기 영역 묶음 */
+.interactive-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
 }
 
 .area-title {
-    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    font-size: 0.8rem;
     color: #FF8A65;
-    margin: 3px 0;
 }
 
 /* 우측 상단 Listen 버튼 */
 .tts-btn {
     position: absolute;
     top: 8px;
-    right: 10px;
+    right: 8px;
     background-color: #FFF0F5;
     border: 2px solid #FFB6C1;
     border-radius: 12px;
-    padding: 3px 8px;
-    font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+    padding: 4px 8px;
+    font-size: 0.8rem;
     font-family: 'Jua', sans-serif;
     color: #FF69B4 !important;
     font-weight: bold;
@@ -155,7 +160,7 @@ h1 {
     box-shadow: 0 2px 0 #FF69B4;
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 2px;
     z-index: 10;
 }
 
@@ -165,13 +170,12 @@ h1 {
 }
 
 /* ==========================================
-   5. 정답 패널 & 선택 단어 보관함
+   4. 정답 패널 & 보관함
    ========================================== */
 .drop-area, .word-pool {
-    min-height: 55px;
-    padding: 6px;
+    min-height: 60px;
+    padding: 8px;
     border-radius: 16px;
-    margin-bottom: 6px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -187,20 +191,20 @@ h1 {
 .word-pool {
     background-color: #F8BBD0;
     border: 3px solid #F48FB1;
+    flex-grow: 1;
 }
 
 /* ==========================================
-   6. 단어 버튼 스타일
+   5. 단어 버튼 스타일
    ========================================== */
 button {
     font-family: 'Jua', sans-serif;
-    font-size: clamp(0.95rem, 2.8vw, 1.2rem);
-    padding: 6px 12px;
+    font-size: clamp(1rem, 3.2vw, 1.25rem);
+    padding: 8px 12px;
     border: none;
     border-radius: 14px;
     cursor: pointer;
     touch-action: manipulation;
-    transition: transform 0.1s ease;
     color: #2D2D2D !important;
     font-weight: bold;
 }
@@ -226,13 +230,12 @@ button {
 }
 
 /* ==========================================
-   7. 피드백 메시지
+   6. 피드백 메시지
    ========================================== */
 .feedback-message {
-    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    font-size: 0.95rem;
     font-weight: bold;
-    min-height: 18px;
-    margin: 2px 0;
+    min-height: 20px;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -250,22 +253,10 @@ button {
 .shake { animation: shake 0.4s ease-in-out; }
 
 /* ==========================================
-   8. 가로 모드 (Landscape) 높이 최적화
+   7. 📱 화면이 좁은 초소형 스마트폰 대응 (상하 배치로 자동 전환)
    ========================================== */
-@media (max-height: 500px) and (orientation: landscape) {
-    .game-container {
-        width: 80vw;
-        height: 85vh;
-        padding: 8px;
-    }
-
-    .sub-title { display: none; }
-    
-    .question-box {
-        padding-top: 25px;
-    }
-
-    .drop-area, .word-pool {
-        min-height: 42px;
+@media (max-width: 480px) {
+    .game-main-content {
+        grid-template-columns: 1fr; /* 좌우 배치가 너무 조밀해지면 1열로 유연하게 복귀 */
     }
 }
