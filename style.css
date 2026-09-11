@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
 /* ==========================================
-   1. 기본 최적화 및 기본 레이아웃
+   1. 기본 최적화 및 스타일 설정
    ========================================== */
 * {
     box-sizing: border-box;
@@ -28,7 +28,7 @@ body {
 
 .game-container {
     width: 95vw;
-    max-width: 800px;
+    max-width: 850px;
     background-color: #FFFFFF;
     border-radius: 25px;
     padding: 16px;
@@ -50,6 +50,14 @@ h1 {
     color: #FF8A65;
     font-size: clamp(0.85rem, 2.2vw, 1rem);
     font-weight: normal;
+}
+
+/* 상단 컨트롤 영역 (기본) */
+.top-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
 }
 
 .score-container {
@@ -91,7 +99,7 @@ h1 {
 }
 
 /* ==========================================
-   2. 기본 (기존) 상하 레이아웃 (가로 화면 / PC)
+   2. 세로 화면 기본값: 기존 [위-아래] 상하 레이아웃
    ========================================== */
 .game-main-content {
     display: flex;
@@ -234,19 +242,32 @@ button {
 .shake { animation: shake 0.4s ease-in-out; }
 
 /* ==========================================
-   3. 📱 세로 화면(Portrait Mode) 전용 좌우 2열 배치
+   3. 📱/💻 가로 화면(Landscape) 전용 최적화
    ========================================== */
-@media (orientation: portrait) {
+@media (orientation: landscape) {
+    /* ⚡ 가로 모드 시 점수판과 난이도 버튼을 한 줄로 정렬 */
+    .top-controls {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .score-container {
+        margin-top: 0;
+    }
+
+    /* 메인 좌우 2열 배치 */
     .game-main-content {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* 좌: 문제 / 우: 답안 영역 */
-        gap: 10px;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
         align-items: stretch;
     }
 
     .question-box {
         height: 100%;
-        min-height: 180px;
+        min-height: 140px;
     }
 
     .interactive-area {
