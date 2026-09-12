@@ -88,8 +88,17 @@ const homeScore =
 const wrongCount =
     document.getElementById("wrongCount");
 
+
+/*
+ * 현재 HTML의 공부 제목 ID
+ *
+ * index.html
+ * <div class="study-title" id="studyTitle">
+ *
+ */
+
 const currentLevelTitle =
-    document.getElementById("currentLevelTitle");
+    document.getElementById("studyTitle");
 
 
 /* =========================================================
@@ -97,6 +106,7 @@ const currentLevelTitle =
    ========================================================= */
 
 function elementExists(element) {
+
     return element !== null &&
            element !== undefined;
 }
@@ -119,8 +129,12 @@ function loadScore() {
             savedScore !== null &&
             !isNaN(Number(savedScore))
         ) {
-            score = Number(savedScore);
+
+            score =
+                Number(savedScore);
+
         } else {
+
             score = 0;
         }
 
@@ -168,11 +182,15 @@ function saveScore() {
 function updateScoreDisplay() {
 
     if (elementExists(scoreDisplay)) {
-        scoreDisplay.innerText = score;
+
+        scoreDisplay.innerText =
+            score;
     }
 
     if (elementExists(homeScore)) {
-        homeScore.innerText = score;
+
+        homeScore.innerText =
+            score;
     }
 }
 
@@ -194,6 +212,37 @@ function addScore(points) {
 
 
 /* =========================================================
+   8-1. 난이도별 점수
+   ---------------------------------------------------------
+   단어공부 = 1점
+   초급 = 2점
+   중급 = 3점
+   상급 = 5점
+   ========================================================= */
+
+function getScoreByLevel(level) {
+
+    switch (level) {
+
+        case "word":
+            return 1;
+
+        case "easy":
+            return 2;
+
+        case "medium":
+            return 3;
+
+        case "hard":
+            return 5;
+
+        default:
+            return 0;
+    }
+}
+
+
+/* =========================================================
    9. 오답노트 불러오기
    ========================================================= */
 
@@ -207,6 +256,7 @@ function getWrongNotes() {
             );
 
         if (!saved) {
+
             return [];
         }
 
@@ -214,6 +264,7 @@ function getWrongNotes() {
             JSON.parse(saved);
 
         if (Array.isArray(parsed)) {
+
             return parsed;
         }
 
@@ -270,6 +321,7 @@ function addWrongNote(wrongAnswer) {
         !currentQuestion ||
         !currentQuestion.eng
     ) {
+
         return;
     }
 
@@ -333,6 +385,7 @@ function addWrongNote(wrongAnswer) {
 
     }
 
+
     /* 처음 틀린 문제 */
 
     else {
@@ -346,16 +399,20 @@ function addWrongNote(wrongAnswer) {
                     .toString(36)
                     .substring(2, 9),
 
-            level: level,
+            level:
+                level,
 
-            kor: kor,
+            kor:
+                kor,
 
-            eng: eng,
+            eng:
+                eng,
 
             wrongAnswer:
                 normalizedWrongAnswer,
 
-            count: 1,
+            count:
+                1,
 
             createdAt:
                 new Date().toISOString(),
@@ -406,6 +463,7 @@ function clearWrongNotes() {
         getWrongNotes();
 
     if (notes.length === 0) {
+
         return;
     }
 
@@ -415,6 +473,7 @@ function clearWrongNotes() {
         );
 
     if (!confirmed) {
+
         return;
     }
 
@@ -489,15 +548,21 @@ function showWrongNoteScreen() {
     stopSpeaking();
 
     if (elementExists(homeScreen)) {
-        homeScreen.style.display = "none";
+
+        homeScreen.style.display =
+            "none";
     }
 
     if (elementExists(studyScreen)) {
-        studyScreen.style.display = "none";
+
+        studyScreen.style.display =
+            "none";
     }
 
     if (elementExists(wrongNoteScreen)) {
-        wrongNoteScreen.style.display = "block";
+
+        wrongNoteScreen.style.display =
+            "block";
     }
 
     renderWrongNotes();
@@ -521,6 +586,7 @@ function renderWrongNotes() {
         getWrongNotes();
 
     if (!elementExists(wrongNoteList)) {
+
         return;
     }
 
@@ -543,7 +609,8 @@ function renderWrongNotes() {
 
     /* 기존 내용 제거 */
 
-    wrongNoteList.innerHTML = "";
+    wrongNoteList.innerHTML =
+        "";
 
 
     notes.forEach(function (note) {
@@ -737,15 +804,25 @@ function renderWrongNotes() {
            카드 완성
            ----------------------------------------- */
 
-        card.appendChild(top);
+        card.appendChild(
+            top
+        );
 
-        card.appendChild(kor);
+        card.appendChild(
+            kor
+        );
 
-        card.appendChild(eng);
+        card.appendChild(
+            eng
+        );
 
-        card.appendChild(userAnswer);
+        card.appendChild(
+            userAnswer
+        );
 
-        card.appendChild(actions);
+        card.appendChild(
+            actions
+        );
 
 
         wrongNoteList.appendChild(
@@ -764,15 +841,21 @@ function showHomeScreen() {
     stopSpeaking();
 
     if (elementExists(homeScreen)) {
-        homeScreen.style.display = "block";
+
+        homeScreen.style.display =
+            "block";
     }
 
     if (elementExists(studyScreen)) {
-        studyScreen.style.display = "none";
+
+        studyScreen.style.display =
+            "none";
     }
 
     if (elementExists(wrongNoteScreen)) {
-        wrongNoteScreen.style.display = "none";
+
+        wrongNoteScreen.style.display =
+            "none";
     }
 
     updateScoreDisplay();
@@ -787,15 +870,21 @@ function showHomeScreen() {
 function showStudyScreen() {
 
     if (elementExists(homeScreen)) {
-        homeScreen.style.display = "none";
+
+        homeScreen.style.display =
+            "none";
     }
 
     if (elementExists(studyScreen)) {
-        studyScreen.style.display = "block";
+
+        studyScreen.style.display =
+            "block";
     }
 
     if (elementExists(wrongNoteScreen)) {
-        wrongNoteScreen.style.display = "none";
+
+        wrongNoteScreen.style.display =
+            "none";
     }
 
     updateScoreDisplay();
@@ -811,7 +900,8 @@ function startStudy(level) {
     currentLevel =
         level || "word";
 
-    isQuestionLocked = false;
+    isQuestionLocked =
+        false;
 
     showStudyScreen();
 
@@ -843,17 +933,23 @@ function updateCurrentLevelTitle() {
    22. TTS 변수
    ========================================================= */
 
-let synth = null;
+let synth =
+    null;
 
-let voices = [];
+let voices =
+    [];
 
-let isAudioUnlocked = false;
+let isAudioUnlocked =
+    false;
 
-let isSpeaking = false;
+let isSpeaking =
+    false;
 
-let currentAudio = null;
+let currentAudio =
+    null;
 
-let ttsReady = false;
+let ttsReady =
+    false;
 
 
 /* =========================================================
@@ -872,7 +968,8 @@ function initSpeechSynthesis() {
         synth =
             window.speechSynthesis;
 
-        ttsReady = true;
+        ttsReady =
+            true;
 
         loadVoices();
 
@@ -914,6 +1011,7 @@ function initSpeechSynthesis() {
 function loadVoices() {
 
     if (!synth) {
+
         return;
     }
 
@@ -978,6 +1076,7 @@ function getEnglishVoice() {
         );
 
     if (voice) {
+
         return voice;
     }
 
@@ -996,6 +1095,7 @@ function getEnglishVoice() {
         );
 
     if (voice) {
+
         return voice;
     }
 
@@ -1026,10 +1126,12 @@ function getEnglishVoice() {
 function unlockAudio() {
 
     if (isAudioUnlocked) {
+
         return;
     }
 
-    isAudioUnlocked = true;
+    isAudioUnlocked =
+        true;
 
 
     /* Web Speech */
@@ -1114,6 +1216,7 @@ document.addEventListener(
 function speakWithAndroidTTS(text) {
 
     if (!window.AndroidTTS) {
+
         return false;
     }
 
@@ -1128,7 +1231,8 @@ function speakWithAndroidTTS(text) {
                 String(text)
             );
 
-            isSpeaking = true;
+            isSpeaking =
+                true;
 
             return true;
         }
@@ -1179,6 +1283,7 @@ function stopAndroidTTS() {
 function speakWithWebSpeech(text) {
 
     if (!synth) {
+
         return false;
     }
 
@@ -1447,6 +1552,7 @@ function speakText(text) {
 
 
     if (!text) {
+
         return;
     }
 
@@ -1483,6 +1589,7 @@ function speakText(text) {
             );
 
         if (result) {
+
             return;
         }
     }
@@ -1812,6 +1919,7 @@ function nextQuestion() {
                     "div"
                 );
 
+
             questionText.innerText =
                 currentQuestion.kor;
 
@@ -1898,6 +2006,7 @@ function nextQuestion() {
                 document.createElement(
                     "div"
                 );
+
 
             questionText.innerText =
                 currentQuestion.eng;
@@ -2060,6 +2169,7 @@ function nextQuestion() {
                 "div"
             );
 
+
         korText.innerText =
             currentQuestion.kor;
 
@@ -2074,8 +2184,10 @@ function nextQuestion() {
                 "span"
             );
 
+
         sentence.className =
             "easy-sentence";
+
 
         sentence.innerText =
             displayWords.join(" ");
@@ -2195,6 +2307,7 @@ function nextQuestion() {
 
         blankIndices.sort(
             function (a, b) {
+
                 return a - b;
             }
         );
@@ -2236,6 +2349,7 @@ function nextQuestion() {
                 "div"
             );
 
+
         korText.innerText =
             currentQuestion.kor;
 
@@ -2250,8 +2364,10 @@ function nextQuestion() {
                 "span"
             );
 
+
         sentence.className =
             "easy-sentence";
+
 
         sentence.innerText =
             displayWords.join(" ");
@@ -2353,6 +2469,7 @@ function nextQuestion() {
             "div"
         );
 
+
     korText.innerText =
         currentQuestion.kor;
 
@@ -2404,8 +2521,10 @@ function shuffleArray(array) {
         const temp =
             array[i];
 
+
         array[i] =
             array[j];
+
 
         array[j] =
             temp;
@@ -2467,6 +2586,7 @@ function selectWordOption(
 ) {
 
     if (isQuestionLocked) {
+
         return;
     }
 
@@ -2504,7 +2624,20 @@ function selectWordOption(
         );
 
 
-        addScore(10);
+        /*
+         * 난이도에 따라 점수 지급
+         *
+         * 단어 = 1점
+         * 초급 = 2점
+         * 중급 = 3점
+         * 상급 = 5점
+         */
+
+        addScore(
+            getScoreByLevel(
+                currentLevel
+            )
+        );
 
 
         setTimeout(
@@ -2606,6 +2739,7 @@ function moveWord(
 ) {
 
     if (isQuestionLocked) {
+
         return;
     }
 
@@ -2731,6 +2865,7 @@ function showMessage(
 function checkAnswer() {
 
     if (isQuestionLocked) {
+
         return;
     }
 
@@ -2774,7 +2909,20 @@ function checkAnswer() {
         );
 
 
-        addScore(10);
+        /*
+         * 난이도에 따라 점수 지급
+         *
+         * 단어 = 1점
+         * 초급 = 2점
+         * 중급 = 3점
+         * 상급 = 5점
+         */
+
+        addScore(
+            getScoreByLevel(
+                currentLevel
+            )
+        );
 
 
         setTimeout(
